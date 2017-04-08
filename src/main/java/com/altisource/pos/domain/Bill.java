@@ -31,7 +31,6 @@ public class Bill implements Serializable {
     private double totalBillAmount;
 
     @OneToOne
-    @JoinColumn(name = "CART_ID", nullable = false)
     private Cart cart;
 
     public Bill() {
