@@ -34,6 +34,12 @@ public class Territory implements Serializable {
         this.id = id;
     }
 
+    public Territory(final double taxRate, final String name, final String descr) {
+        this.taxRate = taxRate;
+        this.name = name;
+        this.descr = descr;
+    }
+
     public long getId() {
         return id;
     }
@@ -64,5 +70,16 @@ public class Territory implements Serializable {
 
     public void setDescr(final String descr) {
         this.descr = descr;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Territory{");
+        sb.append("id=").append(id);
+        sb.append(", taxRate=").append(taxRate);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", descr='").append(descr).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

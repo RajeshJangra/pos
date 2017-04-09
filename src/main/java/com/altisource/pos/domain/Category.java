@@ -27,15 +27,21 @@ public class Category implements Serializable {
     @Column(nullable = false)
     private String descr;
 
-    public long getId() {
-        return id;
-    }
-
     public Category() {
     }
 
     public Category(final long id) {
         this.id = id;
+    }
+
+    public Category(final double taxRate, final String name, final String descr) {
+        this.taxRate = taxRate;
+        this.name = name;
+        this.descr = descr;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setId(final long id) {
@@ -64,5 +70,16 @@ public class Category implements Serializable {
 
     public void setDescr(final String descr) {
         this.descr = descr;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Category{");
+        sb.append("id=").append(id);
+        sb.append(", taxRate=").append(taxRate);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", descr='").append(descr).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }

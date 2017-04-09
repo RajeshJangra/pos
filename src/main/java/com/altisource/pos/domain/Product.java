@@ -21,21 +21,25 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private String descr;
 
-    @ManyToOne
-    @JoinColumn(name = "CATEGORY_ID", nullable = false)
-    //@ApiModelProperty(value = "Category of a product in POS application", notes = "This must not be null")
-    private Category category;
+    @Column
+    private double price;
 
     @ManyToOne
-    @JoinColumn(name = "TERRITORY_ID", nullable = false)
-    //@ApiModelProperty(value = "Category of a product in POS application", notes = "This must not be null")
-    private Territory territory;
+    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    private Category category;
 
     public Product() {
     }
 
     public Product(final long id) {
         this.id = id;
+    }
+
+    public Product(final String name, final String descr, final double price, final Category category) {
+        this.name = name;
+        this.descr = descr;
+        this.price = price;
+        this.category = category;
     }
 
     public long getId() {
@@ -62,6 +66,14 @@ public class Product implements Serializable {
         this.descr = descr;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(final double price) {
+        this.price = price;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -70,11 +82,15 @@ public class Product implements Serializable {
         this.category = category;
     }
 
-    public Territory getTerritory() {
-        return territory;
-    }
-
-    public void setTerritory(final Territory territory) {
-        this.territory = territory;
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Product{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", descr='").append(descr).append('\'');
+        sb.append(", price=").append(price);
+        sb.append(", category=").append(category);
+        sb.append('}');
+        return sb.toString();
     }
 }

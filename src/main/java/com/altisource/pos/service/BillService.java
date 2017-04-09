@@ -1,13 +1,18 @@
 package com.altisource.pos.service;
 
 import com.altisource.pos.domain.Bill;
-import com.altisource.pos.exception.BillValidationException;
+import com.altisource.pos.domain.Cart;
+import com.altisource.pos.exception.PosApplicationException;
 import com.altisource.pos.repository.BillRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import static com.altisource.pos.util.Constant.PAGE_SIZE;
 
 /**
  * Created by rajeshkumar on 07/04/17.
@@ -15,35 +20,36 @@ import java.util.stream.Collectors;
 @Service
 public class BillService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BillService.class);
+
     @Autowired
     BillRepository billRepository;
 
-    public List<Bill> getItems() {
-        return billRepository.findAll().stream().collect(Collectors.toList());
+    @Autowired
+    CartService cartService;
+
+    public Page<Bill> getBills(int pageNumber, final String sortField, final String sortDirectionString) throws PosApplicationException {
+        Sort.Direction sortDirection = Sort.Direction.fromString(sortDirectionString);
+        validateSortField(sortField);
+        return billRepository.findAll(new PageRequest(pageNumber, PAGE_SIZE, new Sort(sortDirection, sortField)));
     }
 
-    public void createBill(final Bill bill) throws BillValidationException {
-        if (billRepository.exists(bill.getId())) {
-            throw new BillValidationException("Item already exists");
+    private void validateSortField(final String sortField) throws PosApplicationException {
+        if (!(sortField.equals("locationCode") || sortField.equals("billAmount") || sortField.equals("billDate"))) {
+            String message = "Page can only be sorted by locationCode, billAmount or billDate";
+            LOGGER.error(message);
+            throw new PosApplicationException(message);
         }
+    }
+
+    public void createBill(final long cartId) throws PosApplicationException {
+        Cart cart = cartService.getCart(cartId);
+        if (cart == null) {
+            String message = "Input Cart:" + cartId + " does not exist";
+            LOGGER.error(message);
+            throw new PosApplicationException(message);
+        }
+        Bill bill = new Bill.Builder().cart(cart).build();
         billRepository.save(bill);
-    }
-
-    public void updateBill(final Bill bill) throws BillValidationException {
-        if (billRepository.exists(bill.getId())) {
-            billRepository.save(bill);
-        }
-        throw new BillValidationException("Item does not exist");
-    }
-
-    public void deleteBill(final long id) throws BillValidationException {
-        if (billRepository.exists(id)) {
-            billRepository.delete(id);
-        }
-        throw new BillValidationException("Item does not exist");
-    }
-
-    public Bill getBill(final long id) {
-        return billRepository.findOne(id);
     }
 }

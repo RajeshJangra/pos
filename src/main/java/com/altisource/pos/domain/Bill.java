@@ -1,9 +1,14 @@
 package com.altisource.pos.domain;
 
+import com.altisource.pos.util.PosDateDeserializer;
+import com.altisource.pos.util.PosDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.concurrent.atomic.DoubleAdder;
 
 /**
  * Created by rajeshkumar on 07/04/17.
@@ -16,16 +21,21 @@ public class Bill implements Serializable {
     private long id;
 
     @Column
+    @JsonSerialize(using = PosDateSerializer.class)
+    @JsonDeserialize(using = PosDateDeserializer.class)
     private Date billDate;
 
     @Column
-    private String locationCode;
+    private long locationCode;
 
     @Column
     private double billAmount;
 
     @Column
-    private double taxAmount;
+    private double catTaxAmount;
+
+    @Column
+    private double territoryTaxAmount;
 
     @Column
     private double totalBillAmount;
@@ -38,6 +48,16 @@ public class Bill implements Serializable {
 
     public Bill(final long id) {
         this.id = id;
+    }
+
+    public Bill(final long locationCode, final double billAmount, final double catTaxAmount, final double territoryTaxAmount, final double totalBillAmount, final Cart cart) {
+        this.billDate = new Date();
+        this.locationCode = locationCode;
+        this.billAmount = billAmount;
+        this.catTaxAmount = catTaxAmount;
+        this.territoryTaxAmount = territoryTaxAmount;
+        this.totalBillAmount = totalBillAmount;
+        this.cart = cart;
     }
 
     public long getId() {
@@ -64,11 +84,11 @@ public class Bill implements Serializable {
         this.billDate = billDate;
     }
 
-    public String getLocationCode() {
+    public long getLocationCode() {
         return locationCode;
     }
 
-    public void setLocationCode(final String locationCode) {
+    public void setLocationCode(final long locationCode) {
         this.locationCode = locationCode;
     }
 
@@ -80,12 +100,12 @@ public class Bill implements Serializable {
         this.billAmount = billAmount;
     }
 
-    public double getTaxAmount() {
-        return taxAmount;
+    public double getCatTaxAmount() {
+        return catTaxAmount;
     }
 
-    public void setTaxAmount(final double taxAmount) {
-        this.taxAmount = taxAmount;
+    public void setCatTaxAmount(final double catTaxAmount) {
+        this.catTaxAmount = catTaxAmount;
     }
 
     public double getTotalBillAmount() {
@@ -94,5 +114,57 @@ public class Bill implements Serializable {
 
     public void setTotalBillAmount(final double totalBillAmount) {
         this.totalBillAmount = totalBillAmount;
+    }
+
+    public double getTerritoryTaxAmount() {
+        return territoryTaxAmount;
+    }
+
+    public void setTerritoryTaxAmount(final double territoryTaxAmount) {
+        this.territoryTaxAmount = territoryTaxAmount;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Bill{");
+        sb.append("id=").append(id);
+        sb.append(", billDate=").append(billDate);
+        sb.append(", locationCode=").append(locationCode);
+        sb.append(", billAmount=").append(billAmount);
+        sb.append(", catTaxAmount=").append(catTaxAmount);
+        sb.append(", territoryTaxAmount=").append(territoryTaxAmount);
+        sb.append(", totalBillAmount=").append(totalBillAmount);
+        sb.append(", cart=").append(cart);
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public static class Builder {
+        private Cart cart;
+
+        public Builder cart(Cart cart) {
+            this.cart = cart;
+            return this;
+        }
+
+        public Bill build() {
+            double billAmount = calculateAmount();
+            double catTaxAmount = calculateTax();
+            double territoryTaxAmount = billAmount * cart.getTerritory().getTaxRate() / 100;
+            return new Bill(cart.getTerritory().getId(), billAmount, catTaxAmount, territoryTaxAmount, billAmount + catTaxAmount + territoryTaxAmount, cart);
+        }
+
+        private double calculateAmount() {
+            DoubleAdder billAmount = new DoubleAdder();
+            cart.getProductOrders().stream().forEach(orderItem -> billAmount.add((orderItem.getCount() * orderItem.getProduct().getPrice())));
+            return billAmount.doubleValue();
+        }
+
+        private double calculateTax() {
+            DoubleAdder catTaxAmount = new DoubleAdder();
+            cart.getProductOrders().stream().forEach(orderItem -> catTaxAmount.add((orderItem.getCount() * orderItem.getProduct().getPrice()) * orderItem.getProduct().getCategory().getTaxRate() / 100));
+            return catTaxAmount.doubleValue();
+        }
+
     }
 }

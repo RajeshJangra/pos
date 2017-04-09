@@ -1,14 +1,12 @@
 package com.altisource.pos.service;
 
 import com.altisource.pos.domain.Product;
-import com.altisource.pos.exception.ProductValidationException;
+import com.altisource.pos.exception.PosApplicationException;
 import com.altisource.pos.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by rajeshkumar on 07/04/17.
@@ -16,32 +14,27 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
+
     @Autowired
     ProductRepository productRepository;
 
-    public List<Product> getProducts() {
-        return productRepository.findAll().stream().collect(Collectors.toList());
-    }
-
-    public void createProduct(final Product product) throws ProductValidationException {
+    public void createProduct(final Product product) throws PosApplicationException {
         if (productRepository.exists(product.getId())) {
-            throw new ProductValidationException("Product already exists");
+            String message = "Product: " + product.getId() + " already exists";
+            LOGGER.error(message);
+            throw new PosApplicationException(message);
         }
         productRepository.save(product);
     }
 
-    public void updateProduct(final Product product) throws ProductValidationException {
+    public void updateProduct(final Product product) throws PosApplicationException {
         if (productRepository.exists(product.getId())) {
             productRepository.save(product);
         }
-        throw new ProductValidationException("Product does not exist");
-    }
-
-    public void deleteProduct(final long id) throws ProductValidationException {
-        if (productRepository.exists(id)) {
-            productRepository.delete(id);
-        }
-        throw new ProductValidationException("Product does not exist");
+        String message = "Product: " + product.getId() + " does not exist";
+        LOGGER.error(message);
+        throw new PosApplicationException(message);
     }
 
     public Product getproduct(final long id) {
