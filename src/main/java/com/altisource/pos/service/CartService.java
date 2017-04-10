@@ -35,18 +35,18 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public void addItemToCart(final long cartId, final long productId) throws PosApplicationException {
+    public Cart addProductToCart(final long cartId, final long productId) throws PosApplicationException {
         Cart cart = getCart(cartId);
-        Optional<ProductOrder> orderItemOptional = cart.getProductOrders().stream().filter(orderItem -> orderItem.getProduct().getId() == productId).findFirst();
+        Optional<ProductOrder> orderProductOptional = cart.getProductOrders().stream().filter(orderProduct -> orderProduct.getProduct().getId() == productId).findFirst();
 
-        if (orderItemOptional.isPresent()) {
+        if (orderProductOptional.isPresent()) {
             String message = "Product can not be added. Product: " + productId + " already exists in the cart: " + cartId;
             LOGGER.error(message);
             throw new PosApplicationException(message);
         } else {
             cart.getProductOrders().add(new ProductOrder(productRepository.findOne(productId), 1));
         }
-        cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
     public Cart getCart(final long cartId) throws PosApplicationException {
@@ -59,27 +59,27 @@ public class CartService {
         return cart;
     }
 
-    public void updateItemCountInCart(final long cartId, final long productId, final long itemCount) throws PosApplicationException {
+    public Cart updateProductCountInCart(final long cartId, final long productId, final long itemCount) throws PosApplicationException {
         Cart cart = getCart(cartId);
-        Optional<ProductOrder> orderItemOptional = cart.getProductOrders().stream().filter(orderItem -> orderItem.getProduct().getId() == productId).findFirst();
+        Optional<ProductOrder> orderProductOptional = cart.getProductOrders().stream().filter(orderProduct -> orderProduct.getProduct().getId() == productId).findFirst();
 
-        if (orderItemOptional.isPresent()) {
-            orderItemOptional.get().setCount(itemCount);
+        if (orderProductOptional.isPresent()) {
+            orderProductOptional.get().setCount(itemCount);
         } else {
             String message = "Product count can not be updated. Product: " + productId + " does not exist in the cart: " + cartId;
             LOGGER.error(message);
             throw new PosApplicationException(message);
         }
-        cartRepository.save(cart);
+        return cartRepository.save(cart);
     }
 
-    public void removeItemFromCart(final long cartId, final long productId) throws PosApplicationException {
+    public Cart removeProductFromCart(final long cartId, final long productId) throws PosApplicationException {
         Cart cart = getCart(cartId);
-        Optional<ProductOrder> optionalOrderItem = cart.getProductOrders().stream().filter(orderItem -> orderItem.getProduct().getId() == productId).findFirst();
+        Optional<ProductOrder> optionalOrderProduct = cart.getProductOrders().stream().filter(orderProduct -> orderProduct.getProduct().getId() == productId).findFirst();
 
-        if (optionalOrderItem.isPresent()) {
-            cart.getProductOrders().remove(optionalOrderItem.get());
-            cartRepository.save(cart);
+        if (optionalOrderProduct.isPresent()) {
+            cart.getProductOrders().remove(optionalOrderProduct.get());
+            return cartRepository.save(cart);
         } else {
             String message = "Product can not be removed. Product: " + productId + " does not exist in the cart: " + cartId;
             LOGGER.error(message);

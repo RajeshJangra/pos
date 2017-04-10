@@ -19,25 +19,25 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public void createProduct(final Product product) throws PosApplicationException {
+    public Product createProduct(final Product product) throws PosApplicationException {
         if (productRepository.exists(product.getId())) {
             String message = "Product: " + product.getId() + " already exists";
             LOGGER.error(message);
             throw new PosApplicationException(message);
         }
-        productRepository.save(product);
+        return productRepository.save(product);
     }
 
-    public void updateProduct(final Product product) throws PosApplicationException {
+    public Product updateProduct(final Product product) throws PosApplicationException {
         if (productRepository.exists(product.getId())) {
-            productRepository.save(product);
+            return productRepository.save(product);
         }
         String message = "Product: " + product.getId() + " does not exist";
         LOGGER.error(message);
         throw new PosApplicationException(message);
     }
 
-    public Product getproduct(final long id) {
+    public Product getProduct(final long id) {
         return productRepository.findOne(id);
     }
 }

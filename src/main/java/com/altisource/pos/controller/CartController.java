@@ -31,25 +31,25 @@ public class CartController {
 
     @RequestMapping(method = POST)
     @ResponseStatus(CREATED)
-    public void createCart(@RequestBody Cart cart) throws PosApplicationException {
-        cartService.createCart(cart);
+    public Cart createCart(@RequestBody Cart cart) throws PosApplicationException {
+        return cartService.createCart(cart);
     }
 
-    @RequestMapping(value = "/{cartId}/addItem/{productId}", method = PUT)
+    @RequestMapping(value = "/{cartId}/addProduct/{productId}", method = PUT)
     @ResponseStatus(OK)
-    public void addItemToCart(@PathVariable long cartId, @PathVariable long productId) throws PosApplicationException {
-        cartService.addItemToCart(cartId, productId);
+    public Cart addProductToCart(@PathVariable long cartId, @PathVariable long productId) throws PosApplicationException {
+        return cartService.addProductToCart(cartId, productId);
     }
 
-    @RequestMapping(value = "/{cartId}/removeItem/{productId}", method = PUT)
+    @RequestMapping(value = "/{cartId}/removeProduct/{productId}", method = PUT)
     @ResponseStatus(OK)
-    public void removeItemFromCart(@PathVariable long cartId, @PathVariable long productId) throws PosApplicationException {
-        cartService.removeItemFromCart(cartId, productId);
+    public Cart removeProductFromCart(@PathVariable long cartId, @PathVariable long productId) throws PosApplicationException {
+        return cartService.removeProductFromCart(cartId, productId);
     }
 
     @RequestMapping(value = "/{cartId}/updateCount/{productId}", method = PUT)
     @ResponseStatus(OK)
-    public void removeItemFromCart(@PathVariable long cartId, @PathVariable long productId, @RequestParam final long itemCount) throws PosApplicationException {
-        cartService.updateItemCountInCart(cartId, productId, itemCount);
+    public Cart updateProductCountInCart(@PathVariable long cartId, @PathVariable long productId, @RequestParam final long itemCount) throws PosApplicationException {
+        return cartService.updateProductCountInCart(cartId, productId, itemCount);
     }
 }

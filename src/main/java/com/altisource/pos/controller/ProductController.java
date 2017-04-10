@@ -24,19 +24,19 @@ public class ProductController {
 
     @RequestMapping(value = "/{id}", method = GET)
     @ResponseStatus(OK)
-    public Product getUser(@PathVariable long id) throws PosApplicationException {
-        return productService.getproduct(id);
+    public Product getProduct(@PathVariable long id) throws PosApplicationException {
+        return productService.getProduct(id);
     }
 
     @RequestMapping(method = POST)
     @ResponseStatus(CREATED)
-    public void createProduct(@RequestBody Product product) throws PosApplicationException {
-        productService.createProduct(product);
+    public Product createProduct(@RequestBody Product product) throws PosApplicationException {
+        return productService.createProduct(product);
     }
 
     @RequestMapping(method = PUT)
     @ResponseStatus(OK)
-    public void updateProduct(@RequestBody Product product) throws PosApplicationException {
-        productService.updateProduct(product);
+    public Product updateProduct(@RequestBody Product product) throws PosApplicationException {
+        return productService.updateProduct(product);
     }
 }

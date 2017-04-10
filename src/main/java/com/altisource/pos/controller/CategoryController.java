@@ -24,19 +24,19 @@ public class CategoryController {
 
     @RequestMapping(value = "/{id}", method = GET)
     @ResponseStatus(OK)
-    public Category getUser(@PathVariable long id) throws PosApplicationException {
-        return categoryService.getcategory(id);
+    public Category getCategory(@PathVariable long id) throws PosApplicationException {
+        return categoryService.getCategory(id);
     }
 
     @RequestMapping(method = POST)
     @ResponseStatus(CREATED)
-    public void createCategory(@RequestBody Category category) throws PosApplicationException {
-        categoryService.createCategory(category);
+    public Category createCategory(@RequestBody Category category) throws PosApplicationException {
+        return categoryService.createCategory(category);
     }
 
     @RequestMapping(method = PUT)
     @ResponseStatus(OK)
-    public void updateCategory(@RequestBody Category category) throws PosApplicationException {
-        categoryService.updateCategory(category);
+    public Category updateCategory(@RequestBody Category category) throws PosApplicationException {
+        return categoryService.updateCategory(category);
     }
 }

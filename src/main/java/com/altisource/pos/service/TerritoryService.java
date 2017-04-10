@@ -19,18 +19,18 @@ public class TerritoryService {
     @Autowired
     TerritoryRepository territoryRepository;
 
-    public void createTerritory(final Territory territory) throws PosApplicationException {
+    public Territory createTerritory(final Territory territory) throws PosApplicationException {
         if (territoryRepository.exists(territory.getId())) {
             String message = "Territory: " + territory.getId() + " already exists";
             LOGGER.error(message);
             throw new PosApplicationException(message);
         }
-        territoryRepository.save(territory);
+        return territoryRepository.save(territory);
     }
 
-    public void updateTerritory(final Territory territory) throws PosApplicationException {
+    public Territory updateTerritory(final Territory territory) throws PosApplicationException {
         if (territoryRepository.exists(territory.getId())) {
-            territoryRepository.save(territory);
+            return territoryRepository.save(territory);
         }
         String message = "Territory: " + territory.getId() + " does not exist";
         LOGGER.error(message);

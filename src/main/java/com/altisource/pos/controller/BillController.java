@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -26,13 +28,14 @@ public class BillController {
 
     @RequestMapping(method = GET)
     @ResponseStatus(OK)
-    public Page<Bill> getBills(@RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection) throws PosApplicationException {
-        return billService.getBills(pageNumber, sortField, sortDirection);
+    public Page<Bill> getBills(@RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection,
+                               @RequestParam(required = false) Date billDate, @RequestParam(required = false) Long locationCode, @RequestParam(required = false) Double totalBillAmount) throws PosApplicationException {
+        return billService.getBills(billDate, locationCode, totalBillAmount, pageNumber, sortField, sortDirection);
     }
 
     @RequestMapping(value = "/carts/{cartId}", method = POST)
     @ResponseStatus(CREATED)
-    public void createBill(@PathVariable long cartId) throws PosApplicationException {
-        billService.createBill(cartId);
+    public Bill createBill(@PathVariable long cartId) throws PosApplicationException {
+        return billService.createBill(cartId);
     }
 }

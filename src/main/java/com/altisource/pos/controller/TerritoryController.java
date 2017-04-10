@@ -25,19 +25,19 @@ public class TerritoryController {
 
     @RequestMapping(value = "/{id}", method = GET)
     @ResponseStatus(OK)
-    public Territory getUser(@PathVariable long id) throws PosApplicationException {
+    public Territory getTerritory(@PathVariable long id) throws PosApplicationException {
         return territoryService.getTerritory(id);
     }
 
     @RequestMapping(method = POST)
     @ResponseStatus(CREATED)
-    public void createTerritory(@RequestBody Territory territory) throws PosApplicationException {
-        territoryService.createTerritory(territory);
+    public Territory createTerritory(@RequestBody Territory territory) throws PosApplicationException {
+        return territoryService.createTerritory(territory);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseStatus(OK)
-    public void updateTerritory(@RequestBody Territory territory) throws PosApplicationException {
-        territoryService.updateTerritory(territory);
+    public Territory updateTerritory(@RequestBody Territory territory) throws PosApplicationException {
+        return territoryService.updateTerritory(territory);
     }
 }

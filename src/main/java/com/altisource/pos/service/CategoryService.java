@@ -19,25 +19,25 @@ public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    public void createCategory(final Category category) throws PosApplicationException {
+    public Category createCategory(final Category category) throws PosApplicationException {
         if (categoryRepository.exists(category.getId())) {
             String message = "Category: " + category.getId() + " already exists";
             LOGGER.error(message);
             throw new PosApplicationException(message);
         }
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
-    public void updateCategory(final Category category) throws PosApplicationException {
+    public Category updateCategory(final Category category) throws PosApplicationException {
         if (categoryRepository.exists(category.getId())) {
-            categoryRepository.save(category);
+            return categoryRepository.save(category);
         }
         String message = "Category: " + category.getId() + " does not exist";
         LOGGER.error(message);
         throw new PosApplicationException(message);
     }
 
-    public Category getcategory(final long id) {
+    public Category getCategory(final long id) {
         return categoryRepository.findOne(id);
     }
 }
