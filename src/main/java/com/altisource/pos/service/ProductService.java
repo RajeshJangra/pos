@@ -17,7 +17,7 @@ public class ProductService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     public Product createProduct(final Product product) throws PosApplicationException {
         if (productRepository.exists(product.getId())) {

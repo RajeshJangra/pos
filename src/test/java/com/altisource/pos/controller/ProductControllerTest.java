@@ -24,13 +24,13 @@ import static org.mockito.Mockito.when;
 public class ProductControllerTest {
 
     @InjectMocks
-    ProductController productController;
+    private ProductController productController;
     @Mock
-    ProductService productService;
+    private ProductService productService;
 
     @Test
     public void testCreateProductSuccessful() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productService.createProduct(expected)).thenReturn(expected);
         Product returned = productController.createProduct(expected);
@@ -39,7 +39,7 @@ public class ProductControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testCreateProductAndProductAlreadyExists() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productService.createProduct(expected)).thenThrow(new PosApplicationException("Product: " + expected.getId() + " already exists"));
         productController.createProduct(expected);
@@ -47,7 +47,7 @@ public class ProductControllerTest {
 
     @Test
     public void testUpdateProductSuccessful() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productService.updateProduct(expected)).thenReturn(expected);
         Product returned = productController.updateProduct(expected);
@@ -56,7 +56,7 @@ public class ProductControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testUpdateProductAndProductAlreadyExists() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productService.updateProduct(expected)).thenThrow(new PosApplicationException("Product: " + expected.getId() + " already exists"));
         productController.updateProduct(expected);
@@ -64,14 +64,14 @@ public class ProductControllerTest {
 
     @Test
     public void testGetProductSuccessful() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productService.getProduct(expected.getId())).thenReturn(expected);
         Product returned = productController.getProduct(expected.getId());
         assertEquals(expected, returned);
     }
 
-    private Product getProduct(long productId){
+    private Product getProduct(long productId) {
         Category applianceCareCategory = new Category(10, "Appliance", "Appliance Category");
 
         Product sandwichMaker = new Product("Sandwich Maker", "Black and Decker Sandwich Maker", 1000, applianceCareCategory);

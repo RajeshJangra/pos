@@ -17,7 +17,7 @@ public class TerritoryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TerritoryService.class);
 
     @Autowired
-    TerritoryRepository territoryRepository;
+    private TerritoryRepository territoryRepository;
 
     public Territory createTerritory(final Territory territory) throws PosApplicationException {
         if (territoryRepository.exists(territory.getId())) {

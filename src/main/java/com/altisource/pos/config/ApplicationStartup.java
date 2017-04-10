@@ -21,19 +21,19 @@ import java.util.stream.IntStream;
 public class ApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
 
     @Autowired
-    TerritoryService territoryService;
+    private TerritoryService territoryService;
 
     @Autowired
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    CartService cartService;
+    private CartService cartService;
 
     @Autowired
-    BillService billService;
+    private BillService billService;
 
     @Override
     @Transactional

@@ -23,13 +23,13 @@ import static org.mockito.Mockito.when;
 public class CategoryControllerTest {
 
     @InjectMocks
-    CategoryController categoryController;
+    private CategoryController categoryController;
     @Mock
-    CategoryService categoryService;
+    private CategoryService categoryService;
 
     @Test
     public void testCreateCategorySuccessful() throws Exception {
-        long categoryId = 1l;
+        long categoryId = 1L;
         Category expected = getCategory(categoryId);
         when(categoryService.createCategory(expected)).thenReturn(expected);
         Category returned = categoryController.createCategory(expected);
@@ -38,7 +38,7 @@ public class CategoryControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testCreateCategoryAndCategoryAlreadyExists() throws Exception {
-        long categoryId = 1l;
+        long categoryId = 1L;
         Category expected = getCategory(categoryId);
         when(categoryService.createCategory(expected)).thenThrow(new PosApplicationException("Category: " + expected.getId() + " already exists"));
         categoryController.createCategory(expected);
@@ -46,7 +46,7 @@ public class CategoryControllerTest {
 
     @Test
     public void testUpdateCategorySuccessful() throws Exception {
-        long categoryId = 1l;
+        long categoryId = 1L;
         Category expected = getCategory(categoryId);
         when(categoryService.updateCategory(expected)).thenReturn(expected);
         Category returned = categoryController.updateCategory(expected);
@@ -55,7 +55,7 @@ public class CategoryControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testUpdateCategoryAndCategoryAlreadyExists() throws Exception {
-        long categoryId = 1l;
+        long categoryId = 1L;
         Category expected = getCategory(categoryId);
         when(categoryService.updateCategory(expected)).thenThrow(new PosApplicationException("Category: " + expected.getId() + " already exists"));
         categoryController.updateCategory(expected);
@@ -63,7 +63,7 @@ public class CategoryControllerTest {
 
     @Test
     public void testGetCategorySuccessful() throws Exception {
-        long categoryId = 1l;
+        long categoryId = 1L;
         Category expected = getCategory(categoryId);
         when(categoryService.getCategory(expected.getId())).thenReturn(expected);
         Category returned = categoryController.getCategory(expected.getId());

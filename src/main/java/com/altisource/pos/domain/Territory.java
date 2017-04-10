@@ -74,12 +74,7 @@ public class Territory implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Territory{");
-        sb.append("id=").append(id);
-        sb.append(", taxRate=").append(taxRate);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", descr='").append(descr).append('\'');
-        sb.append('}');
-        return sb.toString();
+        final String sb = "Territory{" + "id=" + id + ", taxRate=" + taxRate + ", name='" + name + '\'' + ", descr='" + descr + '\'' + '}';
+        return sb;
     }
 }

@@ -74,12 +74,7 @@ public class Category implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Category{");
-        sb.append("id=").append(id);
-        sb.append(", taxRate=").append(taxRate);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", descr='").append(descr).append('\'');
-        sb.append('}');
-        return sb.toString();
+        final String sb = "Category{" + "id=" + id + ", taxRate=" + taxRate + ", name='" + name + '\'' + ", descr='" + descr + '\'' + '}';
+        return sb;
     }
 }

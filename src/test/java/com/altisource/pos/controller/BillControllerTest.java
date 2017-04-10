@@ -2,9 +2,7 @@ package com.altisource.pos.controller;
 
 import com.altisource.pos.domain.*;
 import com.altisource.pos.exception.PosApplicationException;
-import com.altisource.pos.repository.BillRepository;
 import com.altisource.pos.service.BillService;
-import com.altisource.pos.service.CartService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -12,16 +10,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.altisource.pos.util.Constant.PAGE_SIZE;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
 /**
@@ -35,9 +29,9 @@ import static org.mockito.Mockito.when;
 public class BillControllerTest {
 
     @InjectMocks
-    BillController billController;
+    private BillController billController;
     @Mock
-    BillService billService;
+    private BillService billService;
 
 
     @Test
@@ -66,7 +60,7 @@ public class BillControllerTest {
         Page<Bill> expected = new PageImpl<>(getBills());
         String locationCodeString = "locationCode";
         String asc = "ASC";
-        Long locationCode = 1l;
+        Long locationCode = 1L;
         when(billService.getBills(null, locationCode, null, 0, locationCodeString, asc)).thenReturn(expected);
         Page<Bill> returned = billController.getBills(0, locationCodeString, asc, null, locationCode, null);
         assertEquals(expected, returned);
@@ -98,7 +92,7 @@ public class BillControllerTest {
         Page<Bill> expected = new PageImpl<>(getBills());
         String locationCodeString = "locationCode";
         String asc = "DESC";
-        Long locationCode = 1l;
+        Long locationCode = 1L;
         when(billService.getBills(null, locationCode, null, 0, locationCodeString, asc)).thenReturn(expected);
         Page<Bill> returned = billController.getBills(0, locationCodeString, asc, null, locationCode, null);
         assertEquals(expected, returned);

@@ -25,10 +25,10 @@ public class BillService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BillService.class);
 
     @Autowired
-    BillRepository billRepository;
+    private BillRepository billRepository;
 
     @Autowired
-    CartService cartService;
+    private CartService cartService;
 
     public Page<Bill> getBills(Date billDate, Long locationCode, Double totalBillAmount, int pageNumber, final String sortField, final String sortDirectionString) throws PosApplicationException {
         Sort.Direction sortDirection = Sort.Direction.fromString(sortDirectionString);

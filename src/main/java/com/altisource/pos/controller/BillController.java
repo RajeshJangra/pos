@@ -28,8 +28,7 @@ public class BillController {
 
     @RequestMapping(method = GET)
     @ResponseStatus(OK)
-    public Page<Bill> getBills(@RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection,
-                               @RequestParam(required = false) Date billDate, @RequestParam(required = false) Long locationCode, @RequestParam(required = false) Double totalBillAmount) throws PosApplicationException {
+    public Page<Bill> getBills(@RequestParam int pageNumber, @RequestParam String sortField, @RequestParam String sortDirection, @RequestParam(required = false) Date billDate, @RequestParam(required = false) Long locationCode, @RequestParam(required = false) Double totalBillAmount) throws PosApplicationException {
         return billService.getBills(billDate, locationCode, totalBillAmount, pageNumber, sortField, sortDirection);
     }
 

@@ -58,11 +58,7 @@ public class ProductOrder implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ProductOrder{");
-        sb.append("id=").append(id);
-        sb.append(", product=").append(product);
-        sb.append(", count=").append(count);
-        sb.append('}');
-        return sb.toString();
+        final String sb = "ProductOrder{" + "id=" + id + ", product=" + product + ", count=" + count + '}';
+        return sb;
     }
 }

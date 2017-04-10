@@ -17,7 +17,7 @@ public class CategoryService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
 
     public Category createCategory(final Category category) throws PosApplicationException {
         if (categoryRepository.exists(category.getId())) {

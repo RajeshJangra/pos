@@ -2,7 +2,6 @@ package com.altisource.pos.controller;
 
 import com.altisource.pos.domain.*;
 import com.altisource.pos.exception.PosApplicationException;
-import com.altisource.pos.repository.ProductRepository;
 import com.altisource.pos.service.CartService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,14 +28,14 @@ import static org.mockito.Mockito.when;
 public class CartControllerTest {
 
     @InjectMocks
-    CartController cartController;
+    private CartController cartController;
     @Mock
-    CartService cartService;
+    private CartService cartService;
 
 
     @Test
     public void testCreateCartSuccessful() throws Exception {
-        long cartId = 1l;
+        long cartId = 1L;
         Cart expected = getCart(cartId);
         when(cartService.createCart(expected)).thenReturn(expected);
         Cart returned = cartController.createCart(expected);
@@ -45,7 +44,7 @@ public class CartControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testCreateCartAndCartAlreadyExists() throws Exception {
-        long cartId = 1l;
+        long cartId = 1L;
         Cart expected = getCart(cartId);
         when(cartService.createCart(expected)).thenThrow(new PosApplicationException("Cart can not be created. Cart: " + cartId + " already exists"));
         cartController.createCart(expected);
@@ -53,36 +52,36 @@ public class CartControllerTest {
 
     @Test
     public void testAddProductToCartSuccessful() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         Cart expected = getCart(cartId);
         expected.getProductOrders().get(0).getProduct().setId(productId);
         when(cartService.addProductToCart(cartId, productId)).thenReturn(expected);
         Cart returned = cartController.addProductToCart(cartId, productId);
         Optional<ProductOrder> productOrder = returned.getProductOrders().stream().filter(orderProduct -> orderProduct.getProduct().getId() == productId).findFirst();
-        assertEquals(1l, productOrder.get().getProduct().getId());
+        assertEquals(1L, productOrder.get().getProduct().getId());
     }
 
     @Test(expected = PosApplicationException.class)
     public void testAddProductToCartAndCartDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         when(cartService.addProductToCart(cartId, productId)).thenThrow(new PosApplicationException("Cart: " + cartId + " does not exist"));
         cartController.addProductToCart(cartId, productId);
     }
 
     @Test(expected = PosApplicationException.class)
     public void testAddProductToCartAndProductAlreadyExists() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
+        long cartId = 1L;
+        long productId = 0L;
         when(cartService.addProductToCart(cartId, productId)).thenThrow(new PosApplicationException("Product can not be added. Product: " + productId + " already exists in the cart: " + cartId));
         cartController.addProductToCart(cartId, productId);
     }
 
     @Test
     public void testRemoveProductFromCartSuccessful() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         Cart expected = getCart(cartId);
         //expected.getProductOrders().get(0).getProduct().setId(productId);
         when(cartService.removeProductFromCart(cartId, productId)).thenReturn(expected);
@@ -93,25 +92,25 @@ public class CartControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testRemoveProductFromCartAndProductDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         when(cartService.removeProductFromCart(cartId, productId)).thenThrow(new PosApplicationException("Product count can not be updated. Product: " + productId + " does not exist in the cart: " + cartId));
         cartController.removeProductFromCart(cartId, productId);
     }
 
     @Test(expected = PosApplicationException.class)
     public void testRemoveProductFromCartAndCartDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
+        long cartId = 1L;
+        long productId = 0L;
         when(cartService.addProductToCart(cartId, productId)).thenThrow(new PosApplicationException("Cart: " + cartId + " does not exist"));
         cartController.addProductToCart(cartId, productId);
     }
 
     @Test
     public void testupdateProductCountInCartSuccessful() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
-        long itemCount = 2l;
+        long cartId = 1L;
+        long productId = 0L;
+        long itemCount = 2L;
         Cart expected = getCart(cartId);
         when(cartService.updateProductCountInCart(cartId, productId, itemCount)).thenReturn(expected);
         Cart returned = cartController.updateProductCountInCart(cartId, productId, itemCount);
@@ -121,25 +120,25 @@ public class CartControllerTest {
 
     @Test(expected = PosApplicationException.class)
     public void testupdateProductCountInCartAndProductDoesNotExistInCart() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
-        long itemCount = 2l;
+        long cartId = 1L;
+        long productId = 1L;
+        long itemCount = 2L;
         when(cartService.updateProductCountInCart(cartId, productId, itemCount)).thenThrow(new PosApplicationException("Product count can not be updated. Product: " + productId + " does not exist in the cart: " + cartId));
         cartController.updateProductCountInCart(cartId, productId, itemCount);
     }
 
     @Test(expected = PosApplicationException.class)
     public void testupdateProductCountInCartAndCartDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
-        long itemCount = 2l;
+        long cartId = 1L;
+        long productId = 1L;
+        long itemCount = 2L;
         when(cartService.updateProductCountInCart(cartId, productId, itemCount)).thenThrow(new PosApplicationException("Cart: " + cartId + " does not exist"));
         cartController.updateProductCountInCart(cartId, productId, itemCount);
     }
 
     @Test
     public void testGetCart() throws Exception {
-        long cartId = 1l;
+        long cartId = 1L;
         Cart expected = getCart(cartId);
         when(cartService.getCart(cartId)).thenReturn(expected);
         Cart returned = cartController.getCart(cartId);

@@ -126,17 +126,8 @@ public class Bill implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Bill{");
-        sb.append("id=").append(id);
-        sb.append(", billDate=").append(billDate);
-        sb.append(", locationCode=").append(locationCode);
-        sb.append(", billAmount=").append(billAmount);
-        sb.append(", catTaxAmount=").append(catTaxAmount);
-        sb.append(", territoryTaxAmount=").append(territoryTaxAmount);
-        sb.append(", totalBillAmount=").append(totalBillAmount);
-        sb.append(", cart=").append(cart);
-        sb.append('}');
-        return sb.toString();
+        final String sb = "Bill{" + "id=" + id + ", billDate=" + billDate + ", locationCode=" + locationCode + ", billAmount=" + billAmount + ", catTaxAmount=" + catTaxAmount + ", territoryTaxAmount=" + territoryTaxAmount + ", totalBillAmount=" + totalBillAmount + ", cart=" + cart + '}';
+        return sb;
     }
 
     public static class Builder {
@@ -156,13 +147,13 @@ public class Bill implements Serializable {
 
         private double calculateAmount() {
             DoubleAdder billAmount = new DoubleAdder();
-            cart.getProductOrders().stream().forEach(orderItem -> billAmount.add((orderItem.getCount() * orderItem.getProduct().getPrice())));
+            cart.getProductOrders().forEach(orderItem -> billAmount.add((orderItem.getCount() * orderItem.getProduct().getPrice())));
             return billAmount.doubleValue();
         }
 
         private double calculateTax() {
             DoubleAdder catTaxAmount = new DoubleAdder();
-            cart.getProductOrders().stream().forEach(orderItem -> catTaxAmount.add((orderItem.getCount() * orderItem.getProduct().getPrice()) * orderItem.getProduct().getCategory().getTaxRate() / 100));
+            cart.getProductOrders().forEach(orderItem -> catTaxAmount.add((orderItem.getCount() * orderItem.getProduct().getPrice()) * orderItem.getProduct().getCategory().getTaxRate() / 100));
             return catTaxAmount.doubleValue();
         }
 

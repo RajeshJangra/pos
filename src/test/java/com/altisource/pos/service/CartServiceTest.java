@@ -16,7 +16,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 /**
@@ -30,16 +29,16 @@ import static org.mockito.Mockito.when;
 public class CartServiceTest {
 
     @InjectMocks
-    CartService cartService;
+    private CartService cartService;
     @Mock
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
     @Mock
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
 
     @Test
     public void testCreateCartSuccessful() throws Exception {
-        long cartId = 1l;
+        long cartId = 1L;
         Cart expected = getCart(cartId);
         when(cartRepository.exists(expected.getId())).thenReturn(false);
         when(cartRepository.save(expected)).thenReturn(expected);
@@ -49,7 +48,7 @@ public class CartServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testCreateCartAndCartAlreadyExists() throws Exception {
-        long cartId = 1l;
+        long cartId = 1L;
         Cart expected = getCart(cartId);
         when(cartRepository.exists(expected.getId())).thenReturn(true);
         cartService.createCart(expected);
@@ -57,29 +56,29 @@ public class CartServiceTest {
 
     @Test
     public void testAddProductToCartSuccessful() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         Cart expected = getCart(cartId);
         when(cartRepository.findOne(cartId)).thenReturn(expected);
         when(cartRepository.save(expected)).thenReturn(expected);
         when(productRepository.findOne(productId)).thenReturn(getProduct(productId));
         Cart returned = cartService.addProductToCart(cartId, productId);
         Optional<ProductOrder> productOrder = returned.getProductOrders().stream().filter(orderProduct -> orderProduct.getProduct().getId() == productId).findFirst();
-        assertEquals(1l, productOrder.get().getProduct().getId());
+        assertEquals(1L, productOrder.get().getProduct().getId());
     }
 
     @Test(expected = PosApplicationException.class)
     public void testAddProductToCartAndCartDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         when(cartRepository.findOne(cartId)).thenReturn(null);
         cartService.addProductToCart(cartId, productId);
     }
 
     @Test(expected = PosApplicationException.class)
     public void testAddProductToCartAndProductAlreadyExists() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
+        long cartId = 1L;
+        long productId = 0L;
         Cart expected = getCart(cartId);
         when(cartRepository.findOne(cartId)).thenReturn(expected);
         when(cartRepository.save(expected)).thenReturn(expected);
@@ -88,8 +87,8 @@ public class CartServiceTest {
 
     @Test
     public void testRemoveProductFromCartSuccessful() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
+        long cartId = 1L;
+        long productId = 0L;
         Cart expected = getCart(cartId);
         when(cartRepository.findOne(cartId)).thenReturn(expected);
         when(cartRepository.save(expected)).thenReturn(expected);
@@ -100,8 +99,8 @@ public class CartServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testRemoveProductFromCartAndProductDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
+        long cartId = 1L;
+        long productId = 1L;
         Cart expected = getCart(cartId);
         when(cartRepository.findOne(cartId)).thenReturn(expected);
         when(cartRepository.save(expected)).thenReturn(expected);
@@ -110,17 +109,17 @@ public class CartServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testRemoveProductFromCartAndCartDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
+        long cartId = 1L;
+        long productId = 0L;
         when(cartRepository.findOne(cartId)).thenReturn(null);
         cartService.addProductToCart(cartId, productId);
     }
 
     @Test
     public void testupdateProductCountInCartSuccessful() throws Exception {
-        long cartId = 1l;
-        long productId = 0l;
-        long itemCount = 2l;
+        long cartId = 1L;
+        long productId = 0L;
+        long itemCount = 2L;
         Cart expected = getCart(cartId);
         when(cartRepository.findOne(cartId)).thenReturn(expected);
         when(cartRepository.save(expected)).thenReturn(expected);
@@ -131,9 +130,9 @@ public class CartServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testupdateProductCountInCartAndProductDoesNotExistInCart() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
-        long itemCount = 2l;
+        long cartId = 1L;
+        long productId = 1L;
+        long itemCount = 2L;
         Cart expected = getCart(cartId);
         when(cartRepository.findOne(cartId)).thenReturn(expected);
         when(cartRepository.save(expected)).thenReturn(expected);
@@ -142,9 +141,9 @@ public class CartServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testupdateProductCountInCartAndCartDoesNotExist() throws Exception {
-        long cartId = 1l;
-        long productId = 1l;
-        long itemCount = 2l;
+        long cartId = 1L;
+        long productId = 1L;
+        long itemCount = 2L;
         when(cartRepository.findOne(cartId)).thenReturn(null);
         cartService.updateProductCountInCart(cartId, productId, itemCount);
     }
@@ -162,7 +161,7 @@ public class CartServiceTest {
         return cart;
     }
 
-    private Product getProduct(long productId){
+    private Product getProduct(long productId) {
         Category applianceCareCategory = new Category(10, "Appliance", "Appliance Category");
         Product sandwichMaker = new Product("Sandwich Maker", "Black and Decker Sandwich Maker", 1000, applianceCareCategory);
         sandwichMaker.setId(productId);

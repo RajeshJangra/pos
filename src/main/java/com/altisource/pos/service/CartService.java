@@ -21,10 +21,10 @@ public class CartService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CartService.class);
 
     @Autowired
-    CartRepository cartRepository;
+    private CartRepository cartRepository;
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     public Cart createCart(final Cart cart) throws PosApplicationException {
         if (cartRepository.exists(cart.getId())) {

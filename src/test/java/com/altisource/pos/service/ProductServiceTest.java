@@ -24,13 +24,13 @@ import static org.mockito.Mockito.when;
 public class ProductServiceTest {
 
     @InjectMocks
-    ProductService productService;
+    private ProductService productService;
     @Mock
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Test
     public void testCreateProductSuccessful() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productRepository.exists(expected.getId())).thenReturn(false);
         when(productRepository.save(expected)).thenReturn(expected);
@@ -40,7 +40,7 @@ public class ProductServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testCreateProductAndProductAlreadyExists() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productRepository.exists(expected.getId())).thenReturn(true);
         productService.createProduct(expected);
@@ -48,7 +48,7 @@ public class ProductServiceTest {
 
     @Test
     public void testUpdateProductSuccessful() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productRepository.exists(expected.getId())).thenReturn(true);
         when(productRepository.save(expected)).thenReturn(expected);
@@ -58,7 +58,7 @@ public class ProductServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testUpdateProductAndProductAlreadyExists() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productRepository.exists(expected.getId())).thenReturn(false);
         productService.updateProduct(expected);
@@ -66,14 +66,14 @@ public class ProductServiceTest {
 
     @Test
     public void testGetProductSuccessful() throws Exception {
-        long productId = 1l;
+        long productId = 1L;
         Product expected = getProduct(productId);
         when(productRepository.findOne(expected.getId())).thenReturn(expected);
         Product returned = productService.getProduct(expected.getId());
         assertEquals(expected, returned);
     }
 
-    private Product getProduct(long productId){
+    private Product getProduct(long productId) {
         Category applianceCareCategory = new Category(10, "Appliance", "Appliance Category");
 
         Product sandwichMaker = new Product("Sandwich Maker", "Black and Decker Sandwich Maker", 1000, applianceCareCategory);

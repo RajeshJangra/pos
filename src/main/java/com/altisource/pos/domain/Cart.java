@@ -60,11 +60,7 @@ public class Cart implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Cart{");
-        sb.append("id=").append(id);
-        sb.append(", territory=").append(territory);
-        sb.append(", productOrders=").append(productOrders);
-        sb.append('}');
-        return sb.toString();
+        final String sb = "Cart{" + "id=" + id + ", territory=" + territory + ", productOrders=" + productOrders + '}';
+        return sb;
     }
 }

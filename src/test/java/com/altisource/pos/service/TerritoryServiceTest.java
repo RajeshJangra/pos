@@ -1,6 +1,5 @@
 package com.altisource.pos.service;
 
-import com.altisource.pos.domain.Category;
 import com.altisource.pos.domain.Territory;
 import com.altisource.pos.exception.PosApplicationException;
 import com.altisource.pos.repository.TerritoryRepository;
@@ -24,13 +23,13 @@ import static org.mockito.Mockito.when;
 public class TerritoryServiceTest {
 
     @InjectMocks
-    TerritoryService territoryService;
+    private TerritoryService territoryService;
     @Mock
-    TerritoryRepository territoryRepository;
+    private TerritoryRepository territoryRepository;
 
     @Test
     public void testCreateTerritorySuccessful() throws Exception {
-        long territoryId = 1l;
+        long territoryId = 1L;
         Territory expected = getTerritory(territoryId);
         when(territoryRepository.exists(expected.getId())).thenReturn(false);
         when(territoryRepository.save(expected)).thenReturn(expected);
@@ -40,7 +39,7 @@ public class TerritoryServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testCreateTerritoryAndTerritoryAlreadyExists() throws Exception {
-        long territoryId = 1l;
+        long territoryId = 1L;
         Territory expected = getTerritory(territoryId);
         when(territoryRepository.exists(expected.getId())).thenReturn(true);
         territoryService.createTerritory(expected);
@@ -48,7 +47,7 @@ public class TerritoryServiceTest {
 
     @Test
     public void testUpdateTerritorySuccessful() throws Exception {
-        long territoryId = 1l;
+        long territoryId = 1L;
         Territory expected = getTerritory(territoryId);
         when(territoryRepository.exists(expected.getId())).thenReturn(true);
         when(territoryRepository.save(expected)).thenReturn(expected);
@@ -58,7 +57,7 @@ public class TerritoryServiceTest {
 
     @Test(expected = PosApplicationException.class)
     public void testUpdateTerritoryAndTerritoryAlreadyExists() throws Exception {
-        long territoryId = 1l;
+        long territoryId = 1L;
         Territory expected = getTerritory(territoryId);
         when(territoryRepository.exists(expected.getId())).thenReturn(false);
         territoryService.updateTerritory(expected);
@@ -66,14 +65,14 @@ public class TerritoryServiceTest {
 
     @Test
     public void testGetTerritorySuccessful() throws Exception {
-        long territoryId = 1l;
+        long territoryId = 1L;
         Territory expected = getTerritory(territoryId);
         when(territoryRepository.findOne(expected.getId())).thenReturn(expected);
         Territory returned = territoryService.getTerritory(expected.getId());
         assertEquals(expected, returned);
     }
 
-    private Territory getTerritory(long territoryId){
+    private Territory getTerritory(long territoryId) {
         Territory delhiTerritory = new Territory(20, "Delhi", "Delhi Territory");
         delhiTerritory.setId(territoryId);
         return delhiTerritory;

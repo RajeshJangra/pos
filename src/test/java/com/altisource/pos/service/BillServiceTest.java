@@ -33,11 +33,11 @@ import static org.mockito.Mockito.when;
 public class BillServiceTest {
 
     @InjectMocks
-    BillService billService;
+    private BillService billService;
     @Mock
-    BillRepository billRepository;
+    private BillRepository billRepository;
     @Mock
-    CartService cartService;
+    private CartService cartService;
 
 
     @Test
@@ -66,7 +66,7 @@ public class BillServiceTest {
         Page<Bill> expected = new PageImpl<>(getBills());
         String billDateString = "locationCode";
         String asc = "ASC";
-        Long locationCode = 1l;
+        Long locationCode = 1L;
         when(billRepository.findByBillDateOrLocationCodeOrTotalBillAmount(null, locationCode, null, new PageRequest(0, PAGE_SIZE, new Sort(Sort.Direction.fromString(asc), billDateString)))).thenReturn(expected);
         Page<Bill> returned = billService.getBills(null, locationCode, null, 0, billDateString, asc);
         assertEquals(expected, returned);
@@ -98,7 +98,7 @@ public class BillServiceTest {
         Page<Bill> expected = new PageImpl<>(getBills());
         String billDateString = "locationCode";
         String asc = "DESC";
-        Long locationCode = 1l;
+        Long locationCode = 1L;
         when(billRepository.findByBillDateOrLocationCodeOrTotalBillAmount(null, locationCode, null, new PageRequest(0, PAGE_SIZE, new Sort(Sort.Direction.fromString(asc), billDateString)))).thenReturn(expected);
         Page<Bill> returned = billService.getBills(null, locationCode, null, 0, billDateString, asc);
         assertEquals(expected, returned);
@@ -109,7 +109,7 @@ public class BillServiceTest {
         Page<Bill> expected = new PageImpl<>(getBills());
         String billDateString = "wrongFieldName";
         String asc = "DESC";
-        Long locationCode = 1l;
+        Long locationCode = 1L;
         when(billRepository.findByBillDateOrLocationCodeOrTotalBillAmount(null, locationCode, null, new PageRequest(0, PAGE_SIZE, new Sort(Sort.Direction.fromString(asc), billDateString)))).thenReturn(expected);
         Page<Bill> returned = billService.getBills(null, locationCode, null, 0, billDateString, asc);
     }
