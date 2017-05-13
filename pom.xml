@@ -113,7 +113,7 @@
                                             <exclude>com.altisource.pos.repository.*</exclude>
                                             <exclude>com.altisource.pos.util.*</exclude>
                                             <exclude>com.altisource.pos.config.*</exclude>
-                                            <exclude>com.altisource.pos.PosApplication</exclude>
+                                            <exclPosApplicationtion</exclude>
                                         </excludes>
                                     </rule>
                                 </rules>
